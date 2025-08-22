@@ -52,7 +52,9 @@ public class RobotContainer {
 
     drive.setDefaultCommand(drive.drive(m_driverController::getRightY, m_driverController::getLeftY));
 
-    m_driverController.leftTrigger().whileTrue(roller.run(4));
+    m_driverController.leftBumper().whileTrue(roller.run(2));
+
+    roller.setDefaultCommand(roller.run(0));
 
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
@@ -67,6 +69,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return drive.drive(() -> -0.25, () -> -0.25).withTimeout(5).andThen(roller.run(2));
   }
 }
